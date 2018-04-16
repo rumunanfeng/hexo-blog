@@ -1,0 +1,35 @@
+body {
+    background-color: #68cdd5;
+}
+.two{
+    text-align: center;
+}
+.three{
+    width: 70%;
+    margin:100px auto;
+}
+.four{
+    width:70%;
+    margin:0px auto;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+img{
+    width:2.5rem;
+    margin:1rem;
+}
+.big{
+    width:8rem;
+}
+.word1{
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+.word2{
+    font-size: 1rem;
+    color: #ffffff;
+}
