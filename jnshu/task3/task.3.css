@@ -6,11 +6,13 @@ body {
 }
 .three{
     width: 70%;
-    margin:100px auto;
+    margin:8rem auto;
 }
 .four{
     width:70%;
-    margin:0px auto;
+    height:5rem;
+    margin:1rem auto;
+    text-align: center;
 }
 .left{
     float:left;
