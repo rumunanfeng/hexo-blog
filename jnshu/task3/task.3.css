@@ -6,19 +6,20 @@ body {
 }
 .three{
     width: 70%;
-    margin:8rem auto;
+    margin:6rem auto;
 }
 .four{
     width:70%;
-    height:5rem;
+    height: 7rem;
     margin:1rem auto;
-    text-align: center;
 }
 .left{
     float:left;
+    text-align: center;
 }
 .right{
     float:right;
+    text-align: center;
 }
 img{
     width:2.5rem;
