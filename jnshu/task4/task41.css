@@ -10,16 +10,16 @@ header{
 }
 .signup{
     position: absolute;
-    left:2rem;
+    left:1rem;
 }
 .signin{
     position: absolute;
-    left:50%;
+    left:47%;
     text-align: center;
 }
 .signout{
     position: absolute;
-    right:2rem;
+    right:1rem;
     text-align: right;
 }
 .normal{
@@ -88,7 +88,7 @@ input::-webkit-input-placeholder{ /*WebKit browsers*/
 .in{
     width:100%;
     background-color: #5fc0cd;
-    height:4rem;
+    height:3.5rem;
     text-align: center;
     color:#fff;
     font-size:1rem;
