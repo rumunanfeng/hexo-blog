@@ -8,24 +8,38 @@ header{
     height:3.3rem;
     margin-bottom:0.25rem;
 }
-.signup{
-    position: absolute;
-    left:1rem;
+.signin,.signup,.signout{
+    float:left;
 }
-.signin{
-    position: absolute;
-    left:45%;
-    right:45%;
-    text-align: center;
+.signin {
+    width:100%;
+    text-align:center;
+}
+.signup {
+    width:30%;
+    margin-left:-100%;
 }
 .signout{
-    position: absolute;
-    right:1rem;
-    text-align: right;
+    width:30%;
+    margin-left:-30%;
+    text-align:right;
 }
-.normal{
+
+.signup a{
     color:#fff;
     font-size:1rem;
+    margin-left:1rem;
+    display:inline-block;
+    line-height: 3.3rem;
+    text-decoration:none;
+}
+.signout a{
+    color:#fff;
+    font-size:1rem;
+    margin-right:1rem;
+    display:inline-block;
+    line-height: 3.3rem;
+    text-decoration:none;
 }
 .bold{
     color:#fff;
@@ -75,7 +89,6 @@ img{
     font-size:1rem;
     color:black;
     margin-left:1rem;
-
 }
 input::-webkit-input-placeholder{ /*WebKit browsers*/
     color: #e1e5e7;
@@ -94,10 +107,13 @@ input::-webkit-input-placeholder{ /*WebKit browsers*/
     color:#fff;
     font-size:1rem;
     font-weight: bold;
+    border:none;
 }
-.forget{
-    text-align: end;
+footer a{
+    float:right;
+    margin-top:1rem;
+    margin-right:1rem;
     color:#5fc0cd;
     font-size:0.85rem;
-    text-decoration: underline;
+
 }
