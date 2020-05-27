@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico.png">
+  <link rel="mask-icon" href="/images/favicon.ico.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="angular自定义指令的配置很多下面详细介绍一下各个配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义指令配置">
+<meta property="og:url" content="http://yoursite.com/2018/05/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="风波亭">
+<meta property="og:description" content="angular自定义指令的配置很多下面详细介绍一下各个配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-11T15:13:12.000Z">
+<meta property="article:modified_time" content="2020-05-27T14:10:25.419Z">
+<meta property="article:author" content="李温柔">
+<meta property="article:tag" content="Angular">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2018/05/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>自定义指令配置 | 风波亭</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?16a313258477e343a0719655d3ef8c30";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">风波亭</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="李温柔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="风波亭">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自定义指令配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-11 23:13:12" itemprop="dateCreated datePublished" datetime="2018-05-11T23:13:12+08:00">2018-05-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-27 22:10:25" itemprop="dateModified" datetime="2020-05-27T22:10:25+08:00">2020-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>angular自定义指令的配置很多<br>下面详细介绍一下各个配置</p>
+<a id="more"></a>
+<h5 id="⑴-restrict：string"><a href="#⑴-restrict：string" class="headerlink" title="⑴ restrict：string"></a>⑴ restrict：string</h5><p>可选字符串参数，可以设置这个指令在DOM中以何种形式被声明，默认为A(作为属性)</p>
+<ol>
+<li>设置为E，为标签 <code>&lt;my-directive&gt;&lt;/my-directive&gt;</code></li>
+<li>设置为C，为类名<code>&lt;div class=&quot;my-directive:expression;&quot;&gt;&lt;/div&gt;</code></li>
+<li>设置为M，为注释<code>&lt;--directive:my-directive expression--&gt;</code></li>
+<li>设置为A，为属性<code>&lt;div my-directive&gt;&lt;/div&gt;</code></li>
+</ol>
+<p>这些选项可以单独使用，也可以混合使用</p>
+<h5 id="⑵-priority：number"><a href="#⑵-priority：number" class="headerlink" title="⑵ priority：number"></a>⑵ priority：number</h5><p>代表指令的优先级，可忽略，默认为0。</p>
+<h5 id="⑶-terminal：Boolean"><a href="#⑶-terminal：Boolean" class="headerlink" title="⑶ terminal：Boolean"></a>⑶ terminal：Boolean</h5><p>默认为false，如果为true。则停止运行当前元素上比本指令优先级低的指令，优先级相同的指令还是会被执行</p>
+<h5 id="⑷-template：string-or-Template-Funciton"><a href="#⑷-template：string-or-Template-Funciton" class="headerlink" title="⑷ template：string or Template Funciton"></a>⑷ template：string or Template Funciton</h5><p>指令中重要的属性，必须设置如下一种</p>
+<ol>
+<li>一段html文本</li>
+<li>可以接受两个参数的函数</li>
+</ol>
+<p>模板中必须只有一个根标签，可以使用ES6模板字符串插入，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template: &#96;</span><br><span class="line">        &lt;div class&#x3D;&quot;pagination&quot;&gt;</span><br><span class="line">        &lt;ul class&#x3D;&quot;pager&quot;&gt;</span><br><span class="line">        &lt;&#x2F;ul&gt;</span><br><span class="line">        &lt;ul class&#x3D;&quot;pager&quot;&gt;</span><br><span class="line">        &lt;&#x2F;ul&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;&#96;,</span><br></pre></td></tr></table></figure>
+
+<h5 id="⑸-temlateUrl：string"><a href="#⑸-temlateUrl：string" class="headerlink" title="⑸ temlateUrl：string"></a>⑸ temlateUrl：string</h5><p>当html过长时，可以设置templateUrl引用 </p>
+<p>接受一个路径形式的字符串，还可以在script标签中写模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">templateUrl: &quot;html&#x2F;imgload.html&quot;,</span><br></pre></td></tr></table></figure>
+
+<h5 id="⑹-replace：Boolean"><a href="#⑹-replace：Boolean" class="headerlink" title="⑹ replace：Boolean"></a>⑹ replace：Boolean</h5><p>默认为false，模板内容会加载到标签内部</p>
+<p>设置为true的话，模板内容会替换标签内容</p>
+<h5 id="⑺-transclude：Boolean"><a href="#⑺-transclude：Boolean" class="headerlink" title="⑺ transclude：Boolean"></a>⑺ transclude：Boolean</h5><p>是否使用ng-transclude来包含html中原有的内容，默认为false。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">"app"</span>, [])</span><br><span class="line">    .directive(<span class="string">"hello"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> option = &#123;</span><br><span class="line">            restrict: <span class="string">"AECM"</span>,</span><br><span class="line">            template: <span class="string">"&lt;h3&gt;Hello, Directive&lt;/h3&gt;&lt;span ng-transclude&gt;&lt;/span&gt;"</span>,</span><br><span class="line">            transculde: <span class="literal">true</span>  <span class="comment">//为true，所以原来的内容会被放在有ng-transclude属性的标签内</span></span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">return</span> option;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">hello</span>&gt;</span>我是原来的内容<span class="tag">&lt;/<span class="name">hello</span>&gt;</span> ===&gt; 变成如下</span><br><span class="line">        <span class="tag">&lt;<span class="name">hello</span>&gt;</span><span class="tag">&lt;<span class="name">h3</span>&gt;</span>Hello, Directive<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-transclude</span>&gt;</span>我是原来的内容<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">hello</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果指令使用了transclude参数，那么在指令的控制器中就无法正常监听数据模型的变化了</p>
+<h5 id="⑻-scope：Boolean-or-Object"><a href="#⑻-scope：Boolean-or-Object" class="headerlink" title="⑻ scope：Boolean or Object"></a>⑻ scope：Boolean or Object</h5><p>默认为false，直接使用父scope，比较容易产生问题。</p>
+<p>设置为true，继承父scope，当它的内容发生变化时，不会修改父作用域中的内容。</p>
+<p>设置为对象，创建一个新的隔离的scope，仍然可以与父scope通信。</p>
+<p>对象中的绑定方式有三种:</p>
+<ul>
+<li>@为单向绑定，外部scope能影响内部scope，但反过来不成立</li>
+<li>=为双向绑定，外部scope和内部scope的model能互相改变</li>
+<li>&amp;为在独立的子作用域中直接调用父作用域的方法，此方法可以是个function</li>
+</ul>
+<p>其中比较难理解的是&amp;，如下举例说明</p>
+<ol>
+<li><p>首先父scope中定义一个函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$scope.click &#x3D; function () &#123;</span><br><span class="line">    $scope.value &#x3D; Math.random();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>scope对象中添加一个变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scope: &#123;</span><br><span class="line">    action: &#39;&amp;&#39;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模板中定义一个执行方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template:&#96;</span><br><span class="line">&lt;input type&#x3D;&quot;text&quot; ng-click&#x3D;&quot;action()&quot;&gt;&#96;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>html文件中关联起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;随机数&#123;&#123;value&#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;pagination action&#x3D;&quot;click()&quot;&gt;&lt;&#x2F;pagination&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>这样就可以做到，点击模板中的input框时，value值变为一个随机数。</p>
+<h5 id="⑼-controller：String-or-function-scope-element-attrs-transclude-otherInjectables"><a href="#⑼-controller：String-or-function-scope-element-attrs-transclude-otherInjectables" class="headerlink" title="⑼ controller：String or function(scope,element,attrs,transclude,otherInjectables)"></a>⑼ controller：String or function(scope,element,attrs,transclude,otherInjectables)</h5><p>自定义指令中的控制器，它是在编译之前执行，所以我们把呈现视图所需要的数据写在控制器中。<br>它和下面的require多用于多个自定义指令的嵌套，即当一个子元素指令需要和父元素指令通信时。<br>在父元素中，添加构造函数时，函数中的参数就是子元素自定义指令中的scope对象，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">controller:function()&#123;</span><br><span class="line">    this.a &#x3D; function(childDirective)&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，controller属性值对应一个构造函数，在函数中，this代表父元素指令本身，方法a是构造函数中的一个任意方法，在定义这个方法时，形参childDirective就是子元素指令中的scope对象，通过这种方式，父元素可以轻易访问到子元素指令中的scope对象。</p>
+<h5 id="⑽-require：String"><a href="#⑽-require：String" class="headerlink" title="⑽ require：String"></a>⑽ require：String</h5><p>通俗的说是用于指令之间的相互交流.字符串代表另外一个指令的名字</p>
+<p>require会将控制器注入到其值所指定的指令中，并作为当前指令的链接函数的第四个参数。</p>
+<p>如果不使用 ^ 前缀，指令只会在自身的元素上查找控制器</p>
+<p>使用 ^ 如果添加了 ^ 前缀，指令会在外层寻找相应名称的指令</p>
+<p>使用 ? 如果没找到则会将 null 作为传给 link 函数的第四个参数</p>
+<p>使用 ^？ 将前面两个选项的行为组合起来，我们可选择地加载需要的指令并在父指令链中进行查找<br>举个例子来说：当在子元素指令中添加了require属性，并通过属性值找到父元素指令，那么就可以通过子元素指令中link函数的第4个参数来访问父元素指令中controller属性添加的方法，就因为这个参数是父元素指令的实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; angular.modeule(&#39;myapp&#39;,[]);  </span><br><span class="line">app.directive(&#39;common&#39;,function()&#123;  </span><br><span class="line">    return &#123;  </span><br><span class="line">    ...  </span><br><span class="line">    controller: function($scope)&#123;  </span><br><span class="line">        this.method1 &#x3D; function()&#123;  </span><br><span class="line">        &#125;;  </span><br><span class="line">        this.method2 &#x3D; function()&#123;  </span><br><span class="line">        &#125;;  </span><br><span class="line">    &#125;,  </span><br><span class="line">    ...  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;);  </span><br><span class="line">  </span><br><span class="line">app.directive(&#39;d1&#39;,function()&#123;  </span><br><span class="line">    return &#123;  </span><br><span class="line">    ...  </span><br><span class="line">    require: &#39;?^common&#39;,  </span><br><span class="line">    link: function(scope,elem,attrs,common)&#123;  </span><br><span class="line">        scope.method1 &#x3D; common.method1;  </span><br><span class="line">        ..  </span><br><span class="line">        &#125;,  </span><br><span class="line">    ...  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="⑾-link-function-scope-iElement-iAttrs-…"><a href="#⑾-link-function-scope-iElement-iAttrs-…" class="headerlink" title="⑾  link: function(scope, iElement, iAttrs) { … }"></a>⑾  link: function(scope, iElement, iAttrs) { … }</h5><p>用 link 函数创建可以操作DOM的指令，比较常用<br>link函数包含3个主要的参数，</p>
+<ul>
+<li>其中scope参数表示指令所在的作用域。 </li>
+<li>iElement参数表示指令的元素，该元素可以通过Angular内部封装的jqLite框架进行调用，jqLite框架与jQuery框架在功能上虽然差别很大，但是它却包含了主要的元素操作API，是一个压缩版的jqLite </li>
+<li>iAttrs参数表示指令元素的属性集合，通过这个参数可以获取元素中的各类属性</li>
+</ul>
+<h5 id="⑿compile"><a href="#⑿compile" class="headerlink" title="⑿compile"></a>⑿compile</h5><p>与link相比，compile属性的使用要少的多。<br>该属性返回一个函数或对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">compile: function(tElement, tAttrs, transclude) &#123;  </span><br><span class="line">    return &#123;</span><br><span class="line">        pre: function(scope, iElement, iAttrs, controller) &#123; ... &#125;,</span><br><span class="line">        post: function(scope, iElement, iAttrs, controller) &#123; ... &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 或者</span><br><span class="line">    return function postLink(...) &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>设置compile函数的意义在于:在指令和实时数据被放到DOM中之前修改DOM </p>
+<p>compile 和 link 选项是互斥的。如果同时设置了这两个选项，那么会把 compile所返回的函数当作链接函数，而 link 选项本身则会被忽略。</p>
+<p>通常情况下，如果设置了 compile 函数，说明我们希望在指令和实时数据被放到DOM中之前进行DOM操作，在这个函数中进行诸如添加和删除节点等DOM操作是安全的</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Angular/" rel="tag"># Angular</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/16/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4%E4%B9%8B%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/" rel="next" title="自定义指令之图片上传">
+      自定义指令之图片上传 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzk1Ny8xNDQ4Nw"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#⑴-restrict：string"><span class="nav-number">1.</span> <span class="nav-text">⑴ restrict：string</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑵-priority：number"><span class="nav-number">2.</span> <span class="nav-text">⑵ priority：number</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑶-terminal：Boolean"><span class="nav-number">3.</span> <span class="nav-text">⑶ terminal：Boolean</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑷-template：string-or-Template-Funciton"><span class="nav-number">4.</span> <span class="nav-text">⑷ template：string or Template Funciton</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑸-temlateUrl：string"><span class="nav-number">5.</span> <span class="nav-text">⑸ temlateUrl：string</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑹-replace：Boolean"><span class="nav-number">6.</span> <span class="nav-text">⑹ replace：Boolean</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑺-transclude：Boolean"><span class="nav-number">7.</span> <span class="nav-text">⑺ transclude：Boolean</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑻-scope：Boolean-or-Object"><span class="nav-number">8.</span> <span class="nav-text">⑻ scope：Boolean or Object</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑼-controller：String-or-function-scope-element-attrs-transclude-otherInjectables"><span class="nav-number">9.</span> <span class="nav-text">⑼ controller：String or function(scope,element,attrs,transclude,otherInjectables)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑽-require：String"><span class="nav-number">10.</span> <span class="nav-text">⑽ require：String</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑾-link-function-scope-iElement-iAttrs-…"><span class="nav-number">11.</span> <span class="nav-text">⑾  link: function(scope, iElement, iAttrs) { … }</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#⑿compile"><span class="nav-number">12.</span> <span class="nav-text">⑿compile</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李温柔"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">李温柔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李温柔</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共4.7k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</html>
