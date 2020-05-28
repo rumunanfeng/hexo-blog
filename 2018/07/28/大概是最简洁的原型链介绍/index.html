@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico.png">
+  <link rel="mask-icon" href="/images/favicon.ico.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网上的博客有些感觉绕来绕去讲的不尽人意，所以我翻阅众多资料，在此总结一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大概是最清晰的原型链介绍">
+<meta property="og:url" content="http://yoursite.com/2018/07/28/%E5%A4%A7%E6%A6%82%E6%98%AF%E6%9C%80%E7%AE%80%E6%B4%81%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="风波亭">
+<meta property="og:description" content="网上的博客有些感觉绕来绕去讲的不尽人意，所以我翻阅众多资料，在此总结一下。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1488272690691-2636704d6000?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1047&q=80">
+<meta property="og:image" content="https://ae01.alicdn.com/kf/H2caf0374bee14371906fdfcf5eb99c22L.jpg">
+<meta property="article:published_time" content="2018-07-28T12:02:31.000Z">
+<meta property="article:modified_time" content="2020-05-28T13:12:51.441Z">
+<meta property="article:author" content="李温柔">
+<meta property="article:tag" content="原型链">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1488272690691-2636704d6000?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1047&q=80">
+
+<link rel="canonical" href="http://yoursite.com/2018/07/28/%E5%A4%A7%E6%A6%82%E6%98%AF%E6%9C%80%E7%AE%80%E6%B4%81%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E4%BB%8B%E7%BB%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>大概是最清晰的原型链介绍 | 风波亭</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?16a313258477e343a0719655d3ef8c30";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">风波亭</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/28/%E5%A4%A7%E6%A6%82%E6%98%AF%E6%9C%80%E7%AE%80%E6%B4%81%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%93%BE%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="李温柔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="风波亭">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大概是最清晰的原型链介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-28 20:02:31" itemprop="dateCreated datePublished" datetime="2018-07-28T20:02:31+08:00">2018-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-28 21:12:51" itemprop="dateModified" datetime="2020-05-28T21:12:51+08:00">2020-05-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网上的博客有些感觉绕来绕去讲的不尽人意，所以我翻阅众多资料，在此总结一下。<br><img src="https://images.unsplash.com/photo-1488272690691-2636704d6000?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1047&q=80" alt=""></p>
+<a id="more"></a>
+
+<h4 id="首先要搞懂一个概念：普通对象和函数对象"><a href="#首先要搞懂一个概念：普通对象和函数对象" class="headerlink" title="首先要搞懂一个概念：普通对象和函数对象"></a>首先要搞懂一个概念：<strong>普通对象和函数对象</strong></h4><p>一句话总结：<strong>凡是通过 new Function() 创建的对象都是函数对象，其他的都是普通对象</strong> </p>
+<h4 id="关于prototype和-proto-的区别"><a href="#关于prototype和-proto-的区别" class="headerlink" title="关于prototype和__proto_的区别"></a>关于prototype和__proto_的区别</h4><p>prototype是函数对象才有的属性，而proto是每个对象都有的属性。</p>
+<p>下面看一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; &#123;&#125;;</span><br><span class="line">console.log(a.prototype);  &#x2F;&#x2F;undefined</span><br><span class="line">console.log(a.__proto__);  &#x2F;&#x2F;Object &#123;&#125;</span><br><span class="line"></span><br><span class="line">var b &#x3D; function()&#123;&#125;</span><br><span class="line">console.log(b.prototype);  &#x2F;&#x2F;b &#123;&#125;</span><br><span class="line">console.log(b.__proto__);  &#x2F;&#x2F;function() &#123;&#125;</span><br><span class="line">console.log(b.__proto__.__proto__)  &#x2F;&#x2F;Object &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到,a为普通对象，b为函数对象。</p>
+<p>首先a没有prototype属性。其次a的proto属性是为object的prototype属性。</p>
+<p>而b的proto属性是指向Function.prototype。而Function.prototype的proto指向的是object.prototype。</p>
+<p>所以可以总结一下。几乎所有对象的原型链的终点都是Object.prototype。</p>
+<h4 id="原型链到底有什么作用？"><a href="#原型链到底有什么作用？" class="headerlink" title="原型链到底有什么作用？"></a>原型链到底有什么作用？</h4><p>假设我们要调用的对象的toString()方法，然而这个对象是没有toString()方法的。所以实际上是沿着原型链到object.prototype中调用toString()方法。</p>
+<h4 id="一句话解释原型链？"><a href="#一句话解释原型链？" class="headerlink" title="一句话解释原型链？"></a>一句话解释原型链？</h4><p>JavaScript 对象有一个指向一个原型对象的链。当试图访问一个对象的属性时，它不仅仅在该对象上搜寻，还会搜寻该对象的原型，以及该对象的原型的原型，依此层层向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾 </p>
+<h4 id="什么是js原型？"><a href="#什么是js原型？" class="headerlink" title="什么是js原型？"></a>什么是js原型？</h4><p>在JavaScript中原型是一个prototype对象，用于表示类型之间的关系<br>js每声明一个function，都有prototype原型，prototype原型是函数的一个默认属性，在函数的创建过程中由js编译器自动添加。<br>也就是说：当生产一个function对象的时候，就有一个原型prototype。</p>
+<h4 id="什么是构造函数？"><a href="#什么是构造函数？" class="headerlink" title="什么是构造函数？"></a>什么是构造函数？</h4><p>专门用来生成对象的函数，提供模板，描述对象的基本结构</p>
+<h4 id="关于new命令？"><a href="#关于new命令？" class="headerlink" title="关于new命令？"></a>关于new命令？</h4><p>new命令的作用，就是执行构造函数，返回一个实例对象</p>
+<h4 id="清晰的原型链表示？"><a href="#清晰的原型链表示？" class="headerlink" title="清晰的原型链表示？"></a>清晰的原型链表示？</h4><p>原型链的关系(搭配下图效果更佳)：<br>    function Foo() {}// Fn为构造函数<br>    var f1 = new Foo();//f1是Fn构造函数创建出来的对象<br>    构造函数的prototype属性值就是对象原型。（Foo.prototype就是对象的原型）<br>    构造函数的prototype属性值的类型就是对象  typeof Foo.prototype===object.<br>    对象原型中的constructor属性指向构造函数 （Foo.prototype.constructor===Fn)<br>    对象的<strong>proto</strong>属性值就是对象的原型。（f1.<strong>proto</strong>就是对象原型）<br>    Foo.prototype===f1.<strong>proto</strong> 其实它们两个就是同一个对象—对象的原型。<br>    所有Foo.prototype.<strong>proto</strong>===Object.prototype<br>    typeof Object.prototype ===object。<br>    Object.prototype.<strong>proto</strong>===null。</p>
+<p><img src="https://ae01.alicdn.com/kf/H2caf0374bee14371906fdfcf5eb99c22L.jpg" alt=""></p>
+<p>这张图可以说是很清晰的表达了他们的关系。其中proto是实现原型链的关键，而prototype则是原型链的组成，所以读者优先理清楚proto这一条原型链。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE/" rel="tag"># 原型链</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/21/%E5%BD%A9%E4%BA%91%E4%B9%8B%E5%8D%97/" rel="prev" title="彩云之南">
+      <i class="fa fa-chevron-left"></i> 彩云之南
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/07/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/" rel="next" title="回调函数的误区">
+      回调函数的误区 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzk1Ny8xNDQ4Nw"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先要搞懂一个概念：普通对象和函数对象"><span class="nav-number">1.</span> <span class="nav-text">首先要搞懂一个概念：普通对象和函数对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于prototype和-proto-的区别"><span class="nav-number">2.</span> <span class="nav-text">关于prototype和__proto_的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链到底有什么作用？"><span class="nav-number">3.</span> <span class="nav-text">原型链到底有什么作用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一句话解释原型链？"><span class="nav-number">4.</span> <span class="nav-text">一句话解释原型链？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是js原型？"><span class="nav-number">5.</span> <span class="nav-text">什么是js原型？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是构造函数？"><span class="nav-number">6.</span> <span class="nav-text">什么是构造函数？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于new命令？"><span class="nav-number">7.</span> <span class="nav-text">关于new命令？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#清晰的原型链表示？"><span class="nav-number">8.</span> <span class="nav-text">清晰的原型链表示？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李温柔"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">李温柔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李温柔</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共15k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico.png">
+  <link rel="mask-icon" href="/images/favicon.ico.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ES6特性实在太多了，但是其中很多特性我们很难用到。秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习(挑好吃的语法糖)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="好吃的ES6">
+<meta property="og:url" content="http://yoursite.com/2018/06/23/%E5%A5%BD%E5%90%83%E7%9A%84ES6/index.html">
+<meta property="og:site_name" content="风波亭">
+<meta property="og:description" content="ES6特性实在太多了，但是其中很多特性我们很难用到。秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习(挑好吃的语法糖)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.pexels.com/photos/325526/pexels-photo-325526.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
+<meta property="article:published_time" content="2018-06-23T08:47:48.000Z">
+<meta property="article:modified_time" content="2020-05-28T13:13:24.079Z">
+<meta property="article:author" content="李温柔">
+<meta property="article:tag" content="ES6">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.pexels.com/photos/325526/pexels-photo-325526.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
+
+<link rel="canonical" href="http://yoursite.com/2018/06/23/%E5%A5%BD%E5%90%83%E7%9A%84ES6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>好吃的ES6 | 风波亭</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?16a313258477e343a0719655d3ef8c30";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">风波亭</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/23/%E5%A5%BD%E5%90%83%E7%9A%84ES6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="李温柔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="风波亭">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          好吃的ES6
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-23 16:47:48" itemprop="dateCreated datePublished" datetime="2018-06-23T16:47:48+08:00">2018-06-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-28 21:13:24" itemprop="dateModified" datetime="2020-05-28T21:13:24+08:00">2020-05-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h5 id="ES6特性实在太多了，但是其中很多特性我们很难用到。"><a href="#ES6特性实在太多了，但是其中很多特性我们很难用到。" class="headerlink" title="ES6特性实在太多了，但是其中很多特性我们很难用到。"></a>ES6特性实在太多了，但是其中很多特性我们很难用到。</h5><h5 id="秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习-挑好吃的语法糖"><a href="#秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习-挑好吃的语法糖" class="headerlink" title="秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习(挑好吃的语法糖)"></a><strong>秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习(挑好吃的语法糖)</strong></h5><p><img src="https://images.pexels.com/photos/325526/pexels-photo-325526.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt=""></p>
+<a id="more"></a>
+
+<h4 id="1-let和const命令"><a href="#1-let和const命令" class="headerlink" title="1.let和const命令"></a><strong>1.let和const命令</strong></h4><p>这部分之前也有了解使用过，但没有深入了解一下</p>
+<h5 id="①暂时性死区"><a href="#①暂时性死区" class="headerlink" title="①暂时性死区"></a><strong>①暂时性死区</strong></h5><p>写了一些小demo，用我自己的话表述就是：</p>
+<p>在一个块级作用域内如果存在let和const，那么凡是在let和const声明之前使用变量，都会报错。</p>
+<p>声明之前的区域被称为<strong>暂时性死区</strong>。</p>
+<p>其中我还发现一点，如果块级区域同时存在let和var,如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if(true)&#123;</span><br><span class="line">    tmp &#x3D; &#39;abc&#39;</span><br><span class="line">    let tmp;</span><br><span class="line">    var tmp;</span><br><span class="line">    console.log(&#39;tmp&#39;, tmp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么暂时性死区依旧存在，也就是说只要有let就存在。</p>
+<hr>
+<h5 id="②块级作用域"><a href="#②块级作用域" class="headerlink" title="②块级作用域"></a><strong>②块级作用域</strong></h5><p>ES5中没有块级作用域，这可能就会导致一些问题，如</p>
+<ol>
+<li>内层变量覆盖外层变量</li>
+<li>for循环计数变量泄露为全局变量</li>
+</ol>
+<p>所以为了解决这些问题，ES6引入了块级作用域。</p>
+<p>任何一对花括号（｛和｝）中的语句集都属于一个块，在这之中定义的所有变量在代码块外都是不可见的，我们称之为<strong>块级作用域</strong>。</p>
+<hr>
+<h4 id="2-解构赋值"><a href="#2-解构赋值" class="headerlink" title="2.解构赋值"></a><strong>2.解构赋值</strong></h4><p>解构赋值的基础方法很简单，这里我主要学习了下解构赋值的用途：</p>
+<h5 id="①交换变量的值"><a href="#①交换变量的值" class="headerlink" title="①交换变量的值"></a>①交换变量的值</h5><p>解构赋值第一次接触是在洗牌算法中，发现可以这么使用，感觉很灵性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[arr[i],arr[j]] &#x3D; [arr[j],arr[i]];&#x2F;&#x2F;解构赋值</span><br></pre></td></tr></table></figure>
+
+<p>原本替换数组中的两个位置的值时，需要一个中间变量的参与，有了解构赋值后，一行代码就可以完成。很nice</p>
+<h5 id="②从函数返回多个值"><a href="#②从函数返回多个值" class="headerlink" title="②从函数返回多个值"></a>②从函数返回多个值</h5><p>我们知道，函数只能返回一个值，如果要返回多个值，就只能将它们放在数组或对象中返回，有了解构赋值就可以轻松取出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function example() &#123;</span><br><span class="line">    let a &#x3D; 1;</span><br><span class="line">    let b &#x3D; 2;</span><br><span class="line">    let c &#x3D; 3;</span><br><span class="line">    return [a, b, c];</span><br><span class="line">  &#125;</span><br><span class="line">  let [aa, bb, cc] &#x3D; example();</span><br><span class="line">  console.log(aa); &#x2F;&#x2F;1</span><br></pre></td></tr></table></figure>
+
+<h5 id="③提取JSON数据"><a href="#③提取JSON数据" class="headerlink" title="③提取JSON数据"></a>③提取JSON数据</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let jsonData &#x3D; &#123;</span><br><span class="line">  id: 42,</span><br><span class="line">  status: &quot;OK&quot;,</span><br><span class="line">  data: [867, 5309]</span><br><span class="line">&#125;;</span><br><span class="line">let &#123; id, status, data: number &#125; &#x3D; jsonData;</span><br><span class="line">console.log(id, status, number);</span><br><span class="line">&#x2F;&#x2F; 42, &quot;OK&quot;, [867, 5309]</span><br></pre></td></tr></table></figure>
+
+<p>还有一些用途只是了解了一下，感觉目前对我们来说不太能用到，就不过多阐述了。</p>
+<hr>
+<h4 id="3-字符串的扩展"><a href="#3-字符串的扩展" class="headerlink" title="3.字符串的扩展"></a><strong>3.字符串的扩展</strong></h4><p>看了许多觉得其中最实用的是模板字符串</p>
+<h5 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h5><p>仍记得在任务2-4中插入html标签时写起来的累</p>
+<p>那时写成如下图这种</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&#39;result&#39;).innerHTML &#x3D; </span><br><span class="line">&quot;&lt;ul&gt;&quot; +</span><br><span class="line">  &quot;&lt;li&gt;&quot; + &quot;first&quot; + &quot;&lt;&#x2F;li&gt;&quot; +</span><br><span class="line">  &quot;&lt;li&gt;&quot; + &quot;second&quot; + &quot;&lt;&#x2F;li&gt;&quot; +</span><br><span class="line">&quot;&lt;&#x2F;ul&gt;&quot;</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+
+<p>写起来简直累</p>
+<p>现在有了ES6，瞬间写好：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&#39;result&#39;).innerHTML &#x3D; &#96;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;first&lt;&#x2F;li&gt;</span><br><span class="line">  &lt;li&gt;second&lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;ul&gt;</span><br><span class="line">&#96;;</span><br></pre></td></tr></table></figure>
+
+<p>就是这么简单，不敢相信。只需要加上一对反引号即可``，效果一毛一样。</p>
+<p>使用jQuery还能方便的在html方法中加入变量，效果和上面代码也是一毛一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; &#39;first&#39;;</span><br><span class="line">$(&#39;#result&#39;).html(&#96;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;$&#123;a&#125;&lt;&#x2F;li&gt;</span><br><span class="line">  &lt;li&gt;second&lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;ul&gt;</span><br><span class="line">&#96;);</span><br></pre></td></tr></table></figure>
+
+<p>jQuery大法还是好。html相比innerHtml优点很多，兼容所有浏览器，不存在html5标签不支持的问题，不存在href,src属性被转换的问题，不存在某些标签设置不了html串的问题，总之就是一句话，用它基本就万事无忧了 </p>
+<p>但是我了解到html也有个致命缺点就是，性能很低，所以如果大量使用的话，要慎重。</p>
+<hr>
+<h4 id="4-函数的扩展"><a href="#4-函数的扩展" class="headerlink" title="4.函数的扩展"></a>4.函数的扩展</h4><h5 id="1-函数参数的默认值"><a href="#1-函数参数的默认值" class="headerlink" title="1.函数参数的默认值"></a>1.函数参数的默认值</h5><h6 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h6><p>ES5的话，不能直接为函数的参数指定默认值，只能采用变通的办法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function log(x, y) &#123;</span><br><span class="line">    y &#x3D; y || &#39;World&#39;;</span><br><span class="line">    console.log(x, y);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  log(&#39;Hello&#39;) &#x2F;&#x2F; Hello World</span><br><span class="line">  log(&#39;Hello&#39;, &#39;China&#39;) &#x2F;&#x2F; Hello China</span><br><span class="line">  log(&#39;Hello&#39;, &#39;&#39;) &#x2F;&#x2F; Hello World</span><br></pre></td></tr></table></figure>
+
+<p>这种变通的办法有个缺点是，如果y赋值了，但是对应的布尔值为false，那么赋值就不会起作用。</p>
+<p>如上面代码最后一行，把空字符串赋给y，预期应该是打印Hello，结果是采用了y的默认值，打印出来Hello World。</p>
+<p>ES6就允许为函数参数设置默认值，直接写在参数定义后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function log(x, y &#x3D; &#39;World&#39;) &#123;</span><br><span class="line">  console.log(x, y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">log(&#39;Hello&#39;) &#x2F;&#x2F; Hello World</span><br><span class="line">log(&#39;Hello&#39;, &#39;China&#39;) &#x2F;&#x2F; Hello China</span><br><span class="line">log(&#39;Hello&#39;, &#39;&#39;) &#x2F;&#x2F; Hello</span><br></pre></td></tr></table></figure>
+
+<p>这个功能应该还是比较常用的。</p>
+<h6 id="它还可以和解构赋值结合使用"><a href="#它还可以和解构赋值结合使用" class="headerlink" title="它还可以和解构赋值结合使用"></a>它还可以和解构赋值结合使用</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo(&#123;x, y &#x3D; 5&#125;) &#123;</span><br><span class="line">  console.log(x, y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(&#123;&#125;) &#x2F;&#x2F; undefined 5</span><br><span class="line">foo(&#123;x: 1&#125;) &#x2F;&#x2F; 1 5</span><br><span class="line">foo(&#123;x: 1, y: 2&#125;) &#x2F;&#x2F; 1 2</span><br><span class="line">foo() &#x2F;&#x2F; TypeError: Cannot read property &#39;x&#39; of undefined</span><br></pre></td></tr></table></figure>
+
+<p>上面最后一行代码报错的原因是，只使用了解构赋值的默认值，没有使用函数参数的默认值。所以当函数foo调用时不提供参数，就会报错。</p>
+<p>提供函数参数的默认值就可以解决这个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function foo(&#123;x, y &#x3D; 5&#125; &#x3D; &#123;&#125;) &#123;</span><br><span class="line">  console.log(x, y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo() &#x2F;&#x2F; undefined 5</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-箭头函数"><a href="#2-箭头函数" class="headerlink" title="2.箭头函数"></a>2.箭头函数</h5><p>箭头用法的基本用法很简单，就是简写函数。</p>
+<p>在回调函数中我们经常可以用到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3].map(function (x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 箭头函数写法</span><br><span class="line">[1, 2, 3].map(x &#x3D;&gt; x * x);</span><br></pre></td></tr></table></figure>
+
+<p>使用的时候有几个注意点</p>
+<ul>
+<li><p><strong>函数体内的<code>this</code>对象，就是定义时所在的对象，而不是使用时所在的对象</strong> </p>
+</li>
+<li><p>不可以当作构造函数，也就是说，不可以使用<code>new</code>命令，否则会抛出一个错误。 </p>
+</li>
+<li><p>不可以使用<code>arguments</code>对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。 </p>
+</li>
+<li><p>不可以使用<code>yield</code>命令，因此箭头函数不能用作 Generator 函数。 </p>
+</li>
+</ul>
+<p>其中，我遇到过的，也是我们比较容易遇到的是第一点。</p>
+<p>箭头函数可以让setTimeout里面的this，绑定定义所在的作用域，而不是指向运行时所在的作用域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，Timer函数内部设置了两个定时器，分别使用了箭头函数和普通函数。前者的this绑定定义时所在的作用域（即Timer函数），后者的this指向运行时所在的作用域（即全局对象）。所以，3100 毫秒之后，timer.s1被更新了 3 次，而timer.s2一次都没更新。 </p>
+<p>我们知道<code>this</code>对象的指向是可变的，但在箭头函数中，它是固定的。</p>
+<p><code>this</code>指向的固定化，并不是因为箭头函数内部有绑定<code>this</code>的机制，实际原因是箭头函数根本没有自己的<code>this</code>，导致内部的<code>this</code>就是外层代码块的<code>this</code>。正是因为它没有<code>this</code>，所以也就不能用作构造函数。 </p>
+<p>所以把箭头函数转成ES5的代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ES6</span><br><span class="line">function foo() &#123;</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    console.log(&#39;id:&#39;, this.id);</span><br><span class="line">  &#125;, 100);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ES5</span><br><span class="line">function foo() &#123;</span><br><span class="line">  var _this &#x3D; this;</span><br><span class="line"></span><br><span class="line">  setTimeout(function () &#123;</span><br><span class="line">    console.log(&#39;id:&#39;, _this.id);</span><br><span class="line">  &#125;, 100);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这就解决了我之前的一个疑惑，之前用箭头函数也遇到了这个问题。</p>
+<p>除了this，以下三个变量在箭头函数中也不存在，会指向外层函数的对应变量：<code>arguments</code>、<code>super</code>、<code>new.target</code>。 </p>
+<p>困扰我们的this对象问题，很多时候都可以用箭头函数解决咯</p>
+<h4 id="5-Promise"><a href="#5-Promise" class="headerlink" title="5.Promise"></a>5.Promise</h4><h5 id="这大概是ES6中最实用的特性之一了。"><a href="#这大概是ES6中最实用的特性之一了。" class="headerlink" title="这大概是ES6中最实用的特性之一了。"></a>这大概是ES6中最实用的特性之一了。</h5><p><strong>由于内容也比较多，可以单独拿出来写一篇博客了。</strong><br><strong>总的来说，ES6还是比较有意思的，和诸君一起慢慢钻研，共勉</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ES6/" rel="tag"># ES6</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/06/11/%E5%A5%87%E5%A6%99%E7%9A%84canvas/" rel="prev" title="奇妙的canvas">
+      <i class="fa fa-chevron-left"></i> 奇妙的canvas
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/20/%E8%84%86%E5%BC%B1%E7%94%9F%E5%91%BD/" rel="next" title="脆弱生命">
+      脆弱生命 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzk1Ny8xNDQ4Nw"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#ES6特性实在太多了，但是其中很多特性我们很难用到。"><span class="nav-number">1.</span> <span class="nav-text">ES6特性实在太多了，但是其中很多特性我们很难用到。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习-挑好吃的语法糖"><span class="nav-number">2.</span> <span class="nav-text">秉承28原则，选取了觉得比较常用比较有用的ES6特性进行学习(挑好吃的语法糖)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-let和const命令"><span class="nav-number"></span> <span class="nav-text">1.let和const命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#①暂时性死区"><span class="nav-number">1.</span> <span class="nav-text">①暂时性死区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#②块级作用域"><span class="nav-number">2.</span> <span class="nav-text">②块级作用域</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-解构赋值"><span class="nav-number"></span> <span class="nav-text">2.解构赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#①交换变量的值"><span class="nav-number">1.</span> <span class="nav-text">①交换变量的值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#②从函数返回多个值"><span class="nav-number">2.</span> <span class="nav-text">②从函数返回多个值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#③提取JSON数据"><span class="nav-number">3.</span> <span class="nav-text">③提取JSON数据</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-字符串的扩展"><span class="nav-number"></span> <span class="nav-text">3.字符串的扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模板字符串"><span class="nav-number">1.</span> <span class="nav-text">模板字符串</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-函数的扩展"><span class="nav-number"></span> <span class="nav-text">4.函数的扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-函数参数的默认值"><span class="nav-number">1.</span> <span class="nav-text">1.函数参数的默认值</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#基本用法"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#它还可以和解构赋值结合使用"><span class="nav-number">1.2.</span> <span class="nav-text">它还可以和解构赋值结合使用</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-箭头函数"><span class="nav-number">2.</span> <span class="nav-text">2.箭头函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Promise"><span class="nav-number"></span> <span class="nav-text">5.Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这大概是ES6中最实用的特性之一了。"><span class="nav-number">1.</span> <span class="nav-text">这大概是ES6中最实用的特性之一了。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李温柔"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">李温柔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李温柔</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共15k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</html>
