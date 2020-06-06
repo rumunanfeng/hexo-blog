@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico.png">
+  <link rel="mask-icon" href="/images/favicon.ico.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="《图解HTTP》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2020/06/06/%E3%80%8A%E5%9B%BE%E8%A7%A3HTTP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="风波亭">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1550645612-83f5d594b671?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+<meta property="article:published_time" content="2020-06-06T12:40:10.000Z">
+<meta property="article:modified_time" content="2020-06-06T12:45:38.092Z">
+<meta property="article:author" content="李温柔">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1550645612-83f5d594b671?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/06/%E3%80%8A%E5%9B%BE%E8%A7%A3HTTP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>《图解HTTP》读书笔记 | 风波亭</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?16a313258477e343a0719655d3ef8c30";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">风波亭</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">莫听穿林打叶声，何妨吟啸且徐行</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/06/%E3%80%8A%E5%9B%BE%E8%A7%A3HTTP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="李温柔">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="风波亭">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《图解HTTP》读书笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-06 20:40:10 / 修改时间：20:45:38" itemprop="dateCreated datePublished" datetime="2020-06-06T20:40:10+08:00">2020-06-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://images.unsplash.com/photo-1550645612-83f5d594b671?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="image"></p>
+<a id="more"></a>
+
+<p>作为一个非科班出身的程序员，对HTTP方面的知识只是大概了解，并没有深入学习。</p>
+<p>这本书比较浅显易懂，配合图表形式，更让人印象深刻。阅读此书以增进HTTP相关的知识。</p>
+<p>在此只记录一些要点，并未全书概括。</p>
+<h3 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h3><ol>
+<li>发送端首先发送一个带SYN（synchronize）（同步化）</li>
+<li>接收端收到后， 回传一个带有 SYN/ACK（acknowledgement）（承认） 标志的数据包以示传达确认信息。</li>
+<li>最后，发送端再回传一个带 ACK 标志的数据包，代表“握手”结束。</li>
+</ol>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>DNS（Domain Name System）服务是和 HTTP 协议一样位于应用层的 协议。它提供域名到 IP 地址之间的解析服务</p>
+<h3 id="持久连接"><a href="#持久连接" class="headerlink" title="持久连接"></a>持久连接</h3><p>初始版本的HTTP协议中，每进行一次HTTP通信j就要断开一次TCP连接<br>为了解决上述问题，提出了持久连接的方法。持久连接的特点是，只要任意一端 没有明确提出断开连接，则保持 TCP 连接状态。</p>
+<p>持久连接的好处在于减少了TCP连接的重复建立和断开所造成的额 外开销，减轻了服务器端的负载。另外，减少开销的那部分时间，使 HTTP 请求和响应能够更早地结束，这样Web页面的显示速度也就相 应提高了。</p>
+<p>HTTP1.1中默认持久连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
+
+<p>持久连接使得管线化成为可能。从前发送请求后需等待收到响应后才能发送下一个请求。管线化技术出现后，不用等待响应亦可直接发送下一个请求。</p>
+<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><h4 id="状态码类别"><a href="#状态码类别" class="headerlink" title="状态码类别"></a>状态码类别</h4><ol>
+<li>1XX 信息性状态码，接收的请求正在处理</li>
+<li>2XX 成功状态码，请求正常处理完毕</li>
+<li>3XX 重定向状态码，需要进行附加操作以完成请求</li>
+<li>4XX 客户端错误状态码，服务器无法处理请求</li>
+<li>5XX 服务器错误状态码，服务器处理请求出错</li>
+</ol>
+<h4 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h4><ul>
+<li>200 OK 请求正常</li>
+<li>204 Not Content 请求成功但没有资源可返回</li>
+<li>206 Partial Content 范围请求，响应报文中包含由 Content-Range 指定范围的实体内容</li>
+<li>301 Moved Permanently 永久性重定向</li>
+<li>302 Found 临时性重定向</li>
+<li>303 See Other 303和302基本相同，不同之处是 303明确表示客户端应采用get</li>
+<li>304 Not Modified 该状态码表示客户端发送附带条件的请求时，服务器端允许请求访 问资源，但未满足条件的情况。304与重定向没有关系</li>
+<li>307 Temporary Redirect 临时性重定向</li>
+<li>400 Bad Request 请求报文存在语法错误</li>
+<li>401 Unauthorized 发送的请求需要有通过 HTTP 认证（BASIC 认证、 DIGEST 认证）的认证信息</li>
+<li>403 Forbidden 不允许访问</li>
+<li>404 Not Found 服务器上没有请求的资源</li>
+<li>500 Internal Server Error 服务器在执行请求时出错</li>
+<li>502 Service Unavailable 该状态码表明服务器暂时处于超负载或正在进行停机维护，现在无法 处理请求</li>
+</ul>
+<blockquote>
+<p>不少返回的状态码响应都是错误的，但是用户可能察觉不到这点。 比如 Web 应用程序内部发生错误，状态码依然返回 200 OK，这种 情况也经常遇到。</p>
+</blockquote>
+<h3 id="HttP和HTTPS"><a href="#HttP和HTTPS" class="headerlink" title="HttP和HTTPS"></a>HttP和HTTPS</h3><h4 id="HTTP的缺点"><a href="#HTTP的缺点" class="headerlink" title="HTTP的缺点"></a>HTTP的缺点</h4><ol>
+<li>通信使用明文（不加密），内容可能会被窃听</li>
+<li>不验证通信方的身份，因此有可能遭遇伪装</li>
+<li>无法证明报文的完整性，所以有可能已遭篡改</li>
+</ol>
+<h4 id="HTTPS的由来"><a href="#HTTPS的由来" class="headerlink" title="HTTPS的由来"></a>HTTPS的由来</h4><p>HTTP协议中没有加密机制，但可以通过和SSL或TLS的组合使用，加密HTTP的通信内容。与SSL组合使用的HTTP被称为HTTPS</p>
+<h4 id="总结HTTP和HTTPS的区别"><a href="#总结HTTP和HTTPS的区别" class="headerlink" title="总结HTTP和HTTPS的区别"></a>总结HTTP和HTTPS的区别</h4><ol>
+<li>https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用</li>
+<li>http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议 </li>
+<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443</li>
+<li>工作耗时：HTTP耗时=TCP握手，而HTTPS耗时=TCP握手+SSL握手</li>
+</ol>
+<h3 id="webSocket"><a href="#webSocket" class="headerlink" title="webSocket"></a>webSocket</h3><p>使用 WebSocket进行全双工通信，只要建立了链接，客户端和服务器都能都主动得向对方发送信息。和HTTP相比，减少了每次建立连接的开销，减少了通信首部信息。</p>
+<h3 id="web攻击技术"><a href="#web攻击技术" class="headerlink" title="web攻击技术"></a>web攻击技术</h3><h4 id="CSRF（Cross-Site-Request-Forgery）-跨站请求伪造"><a href="#CSRF（Cross-Site-Request-Forgery）-跨站请求伪造" class="headerlink" title="CSRF（Cross Site Request Forgery） 跨站请求伪造"></a>CSRF（Cross Site Request Forgery） 跨站请求伪造</h4><h5 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h5><p>攻击者（黑客，钓鱼网站）盗用了你的身份，以你的名义发送恶意请求</p>
+<h5 id="如何防御"><a href="#如何防御" class="headerlink" title="如何防御"></a>如何防御</h5><ol>
+<li>在HTTP头部中有一个Referer字段，它记录了该HTTP请求所在的地址。通过验证HTTP Referer字段防御。</li>
+<li>添加token验证，可放置于HTTP请求头部</li>
+<li>使用验证码</li>
+</ol>
+<h4 id="Cross-Site-Scripting（跨站脚本攻击）简称-XSS"><a href="#Cross-Site-Scripting（跨站脚本攻击）简称-XSS" class="headerlink" title="Cross-Site Scripting（跨站脚本攻击）简称 XSS"></a>Cross-Site Scripting（跨站脚本攻击）简称 XSS</h4><h5 id="含义-1"><a href="#含义-1" class="headerlink" title="含义"></a>含义</h5><p>是最常见的 Web 攻击，是一种代码注入攻击。攻击者通过在目标网站上注入恶意脚本，使之在用户的浏览器上运行。利用这些恶意脚本，攻击者可获取用户的敏感信息如 Cookie、SessionID 等，进而危害数据安全</p>
+<h5 id="如何防御-1"><a href="#如何防御-1" class="headerlink" title="如何防御"></a>如何防御</h5><ol>
+<li>从输入到输出都需要过滤、转义<h5 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h5>以下是一个可以练习XSS攻击的网站：</li>
+</ol>
+<p><a href="https://alf.nu/alert1" target="_blank" rel="noopener">XSS练习平台</a></p>
+<h3 id="从url输入到浏览器页面展示发生了什么"><a href="#从url输入到浏览器页面展示发生了什么" class="headerlink" title="从url输入到浏览器页面展示发生了什么"></a>从url输入到浏览器页面展示发生了什么</h3><ol>
+<li>首先会去查找DNS缓存，如果没有找到就会去查找域名的ip地址</li>
+<li>和服务器端进行TCP三次握手，建立连接。如果是https的话会进行SSL握手和TCP握手</li>
+<li>握手完成后发送http请求</li>
+<li>服务器处理请求返回http报文</li>
+<li>浏览器渲染解析，根据html解析出dom树，根据css生成css规则树，结合dom树和css规则树生成渲染数，计算节点信息，渲染页面</li>
+<li>断开连接，进行四次挥手</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/31/%E6%AD%A6%E9%99%B5%E6%BA%90%E8%AE%B0/" rel="prev" title="武陵源记">
+      <i class="fa fa-chevron-left"></i> 武陵源记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzk1Ny8xNDQ4Nw"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP三次握手"><span class="nav-number">1.</span> <span class="nav-text">TCP三次握手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">2.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久连接"><span class="nav-number">3.</span> <span class="nav-text">持久连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态码"><span class="nav-number">4.</span> <span class="nav-text">状态码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#状态码类别"><span class="nav-number">4.1.</span> <span class="nav-text">状态码类别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见状态码"><span class="nav-number">4.2.</span> <span class="nav-text">常见状态码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HttP和HTTPS"><span class="nav-number">5.</span> <span class="nav-text">HttP和HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP的缺点"><span class="nav-number">5.1.</span> <span class="nav-text">HTTP的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS的由来"><span class="nav-number">5.2.</span> <span class="nav-text">HTTPS的由来</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结HTTP和HTTPS的区别"><span class="nav-number">5.3.</span> <span class="nav-text">总结HTTP和HTTPS的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webSocket"><span class="nav-number">6.</span> <span class="nav-text">webSocket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web攻击技术"><span class="nav-number">7.</span> <span class="nav-text">web攻击技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF（Cross-Site-Request-Forgery）-跨站请求伪造"><span class="nav-number">7.1.</span> <span class="nav-text">CSRF（Cross Site Request Forgery） 跨站请求伪造</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#含义"><span class="nav-number">7.1.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如何防御"><span class="nav-number">7.1.2.</span> <span class="nav-text">如何防御</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cross-Site-Scripting（跨站脚本攻击）简称-XSS"><span class="nav-number">7.2.</span> <span class="nav-text">Cross-Site Scripting（跨站脚本攻击）简称 XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#含义-1"><span class="nav-number">7.2.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如何防御-1"><span class="nav-number">7.2.2.</span> <span class="nav-text">如何防御</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#练习"><span class="nav-number">7.2.3.</span> <span class="nav-text">练习</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从url输入到浏览器页面展示发生了什么"><span class="nav-number">8.</span> <span class="nav-text">从url输入到浏览器页面展示发生了什么</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李温柔"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">李温柔</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李温柔</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共17.4k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+</html>
